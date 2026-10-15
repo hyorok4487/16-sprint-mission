@@ -9,6 +9,7 @@
 ## Service 간 의존 방향
 
 MessageService → ChannelService → UserService
+
        └──────────────────────────↗
        
 ```mermaid
