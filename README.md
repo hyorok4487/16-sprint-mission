@@ -7,26 +7,34 @@
 ## 진행 현황
 
 ### 기본 요구사항
-- [ ] 프로젝트 초기화 (Java 17, Gradle, `.idea` 제외)
-- [ ] 도메인 모델 구현 (`BaseEntity`, `User`, `Channel`, `Message`)
-  - [ ] 공통 필드: `id`, `createdAt`, `updatedAt`
-  - [ ] Getter, `update` 메소드
-- [ ] 서비스 인터페이스 설계 (`UserService`, `ChannelService`, `MessageService`)
-- [ ] JCF 구현체 구현 (`JCFUserService`, `JCFChannelService`, `JCFMessageService`)
-  - [ ] `data` 필드 `final` 선언 및 생성자 초기화
-- [ ] `JavaApplication` 테스트
-  - [ ] 등록 / 조회 (단건, 다건)
-  - [ ] 수정 / 수정된 데이터 조회
-  - [ ] 삭제 / 삭제 확인
+- [x] 프로젝트 초기화 (Java 17, Gradle, `.idea` 제외)
+- [x] 도메인 모델 구현 (`BaseEntity`, `User`, `Channel`, `Message`)
+  - [x] 공통 필드: `id`, `createdAt`, `updatedAt`
+  - [x] Getter, `update` 메소드
+- [x] 서비스 인터페이스 설계 (`UserService`, `ChannelService`, `MessageService`)
+- [x] JCF 구현체 구현 (`JCFUserService`, `JCFChannelService`, `JCFMessageService`)
+  - [x] `data` 필드 `final` 선언 및 생성자 초기화
+- [x] `JavaApplication` 테스트
+  - [x] 등록 / 조회 (단건, 다건)
+  - [x] 수정 / 수정된 데이터 조회
+  - [x] 삭제 / 삭제 확인
 
 ### 심화 요구사항
-- [ ] 서비스 간 의존성 주입 (`User` ← `Channel` ← `Message`)
-- [ ] `Message` 생성 시 연관 데이터 검증 (발신자, 채널, 채널 멤버)
-- [ ] 검증 로직 테스트
+- [x] 서비스 간 의존성 주입 (`User` ← `Channel` ← `Message`)
+- [x] `Message` 생성 시 연관 데이터 검증 (발신자, 채널, 채널 멤버)
+- [x] 검증 로직 테스트
 
 ### 문서
-- [ ] 클래스 다이어그램
-- [ ] 시퀀스 다이어그램
+- [x] 클래스 다이어그램
+- [x] 시퀀스 다이어그램
+
+### 피드백 반영
+- [x] Channel에 List<UUID> messages 필드 추가
+- [x] Channel의 receiverId 필드 삭제
+- [x] User에 Set<UUID> channels 필드 추가
+- [x] User에 List<UUID> messages 필드 추가
+- [x] Service 구현 객체의 update 메서드 수정
+- [ ] 의존성 순환 문제 해결(진행 중...) (사용자 삭제 시 채널과 메시지가 있으면 예외 발생으로 일단 처리)
 
 <br>
 
