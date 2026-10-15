@@ -2,6 +2,7 @@
 
 ## 클래스 다이어그램
 
+Entity
 ```mermaid
 classDiagram
     direction TB
@@ -78,7 +79,67 @@ classDiagram
     Message ..> User : senderId
     Message ..> Channel : channelId
 ```
+Service
+```mermaid
+classDiagram
+    direction TB
 
+    class UserService {
+        <<interface>>
+        +create(User) User
+        +findById(UUID) User
+        +findAll() List~User~
+        +findAllByChannelId(UUID) List~User~
+        +update(UUID, String, String, String) User
+        +delete(UUID)
+        +addChannel(UUID, UUID)
+        +removeChannel(UUID, UUID)
+        +addMessage(UUID, UUID)
+        +removeMessage(UUID, UUID)
+    }
+
+    class ChannelService {
+        <<interface>>
+        +create(Channel) Channel
+        +findById(UUID) Channel
+        +findAll() List~Channel~
+        +update(UUID, UUID, String, String) Channel
+        +delete(UUID, UUID)
+        +join(UUID, UUID)
+        +leave(UUID, UUID)
+        +transferOwnership(UUID, UUID, UUID)
+        +addMessage(UUID, UUID)
+        +removeMessage(UUID, UUID)
+    }
+
+    class MessageService {
+        <<interface>>
+        +create(Message) Message
+        +findById(UUID) Message
+        +findAll() List~Message~
+        +findAllByChannelId(UUID) List~Message~
+        +update(UUID, UUID, String) Message
+        +delete(UUID, UUID)
+    }
+
+    class JCFUserService {
+        -final Map~UUID, User~ data
+    }
+    class JCFChannelService {
+        -final Map~UUID, Channel~ data
+    }
+    class JCFMessageService {
+        -final Map~UUID, Message~ data
+    }
+
+    UserService <|.. JCFUserService
+    ChannelService <|.. JCFChannelService
+    MessageService <|.. JCFMessageService
+
+    JCFChannelService --> UserService : 유저 확인, channels 갱신
+    JCFMessageService --> UserService : 발신자 확인, messages 갱신
+    JCFMessageService --> ChannelService : 채널 확인, messages 갱신
+```
 
 ## 시퀀스 다이어그램
 
