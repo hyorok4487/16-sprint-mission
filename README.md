@@ -1,8 +1,39 @@
-## 요구사항
+# Discodeit
+
+> Java Collections Framework 기반 채팅 서비스 도메인 모델 & 서비스 구현 (스프린트 미션 1)
+
+<br>
+
+## 진행 현황
+
+### 기본 요구사항
+- [ ] 프로젝트 초기화 (Java 17, Gradle, `.idea` 제외)
+- [ ] 도메인 모델 구현 (`BaseEntity`, `User`, `Channel`, `Message`)
+  - [ ] 공통 필드: `id`, `createdAt`, `updatedAt`
+  - [ ] Getter, `update` 메소드
+- [ ] 서비스 인터페이스 설계 (`UserService`, `ChannelService`, `MessageService`)
+- [ ] JCF 구현체 구현 (`JCFUserService`, `JCFChannelService`, `JCFMessageService`)
+  - [ ] `data` 필드 `final` 선언 및 생성자 초기화
+- [ ] `JavaApplication` 테스트
+  - [ ] 등록 / 조회 (단건, 다건)
+  - [ ] 수정 / 수정된 데이터 조회
+  - [ ] 삭제 / 삭제 확인
+
+### 심화 요구사항
+- [ ] 서비스 간 의존성 주입 (`User` ← `Channel` ← `Message`)
+- [ ] `Message` 생성 시 연관 데이터 검증 (발신자, 채널, 채널 멤버)
+- [ ] 검증 로직 테스트
+
+### 문서
+- [ ] 클래스 다이어그램
+- [ ] 시퀀스 다이어그램
+
+<br>
 
 ## 클래스 다이어그램
 
-Entity
+### Entity
+
 ```mermaid
 classDiagram
     direction TB
@@ -79,7 +110,9 @@ classDiagram
     Message ..> User : senderId
     Message ..> Channel : channelId
 ```
-Service
+
+### Service
+
 ```mermaid
 classDiagram
     direction TB
@@ -141,15 +174,62 @@ classDiagram
     JCFMessageService --> ChannelService : 채널 확인, messages 갱신
 ```
 
+<br>
+
 ## 시퀀스 다이어그램
 
-## Service 간 의존 방향
+### 메시지 생성 (연관 데이터 검증)
 
-MessageService → ChannelService → UserService
-       
+```mermaid
+sequenceDiagram
+    actor Client
+    participant MS as MessageService
+    participant CS as ChannelService
+    participant US as UserService
+
+    Client->>MS: create(message)
+    MS->>US: findById(senderId)
+    US-->>MS: User (없으면 예외)
+    MS->>CS: findById(channelId)
+    CS-->>MS: Channel (없으면 예외)
+    MS->>MS: channel.hasUser(senderId) 검증
+    Note over MS: 멤버가 아니면 예외
+    MS->>MS: data.put(message)
+    MS->>US: addMessage(senderId, messageId)
+    MS->>CS: addMessage(channelId, messageId)
+    MS-->>Client: Message
+```
+
+<br>
+
+## 서비스 간 의존 방향
+
+> 화살표는 "~를 사용한다"는 뜻이며, **위에서 아래로만** 흐릅니다. (순환 의존 없음)
+
 ```mermaid
 flowchart TD
-    MS[MessageService<br/>메시지 생성·수정·삭제] --> CS[ChannelService<br/>멤버십·소유권 관리]
-    CS --> US[UserService<br/>사용자 관리]
+    MS["MessageService<br/>메시지 생성·수정·삭제"] --> CS["ChannelService<br/>멤버십·소유권 관리"]
+    CS --> US["UserService<br/>사용자 관리"]
     MS --> US
 ```
+
+<br>
+
+## 설계 규칙
+
+| 구분 | 규칙 |
+|---|---|
+| 의존 방향 | 서비스는 **아래 서비스만** 생성자로 주입받는다 (`User` ← `Channel` ← `Message`) |
+| 변경 입구 | 입장·퇴장·메시지 생성/삭제는 **서비스 메서드를 통해서만** 한다 (양쪽 목록을 함께 갱신) |
+| 검증 순서 | 검증을 모두 끝낸 뒤에 값을 변경한다 |
+| 삭제 정책 | 관계가 남아 있으면 삭제를 **거부**한다 |
+
+### 삭제 정책 상세
+
+| 대상 | 삭제 거부 조건 | 삭제 시 정리 |
+|---|---|---|
+| User | 참여 중인 채널 또는 작성한 메시지가 남아 있음 | 없음 |
+| Channel | 메시지가 남아 있음 | 참여 중인 유저의 `channels`에서 채널 제거 |
+| Message | 없음 | `User.messages`, `Channel.messages`에서 메시지 제거 |
+
+> 올바른 삭제 순서: **메시지 → 채널 → 사용자**
