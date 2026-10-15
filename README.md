@@ -8,6 +8,9 @@
 
 ## Service 간 의존 방향
 
+MessageService → ChannelService → UserService
+       └──────────────────────────↗
+       
 ```mermaid
 flowchart TD
     MS[MessageService<br/>메시지 생성·수정·삭제] --> CS[ChannelService<br/>멤버십·소유권 관리]
