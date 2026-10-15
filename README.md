@@ -1,7 +1,12 @@
 ## 요구사항
 
+## 클래스 다이어그램
 
-# Service 간 의존 방향
+
+
+## 시퀀스 다이어그램
+
+## Service 간 의존 방향
 
 ```mermaid
 flowchart TD
