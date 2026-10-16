@@ -28,8 +28,8 @@
 - [x] User에 Set<UUID> channels 필드 추가
 - [x] User에 List<UUID> messages 필드 추가
 - [x] Service 구현 객체의 update 메서드 수정
-- [ ] 의존성 순환 문제 해결(진행 중...) (사용자 삭제 시 채널과 메시지가 있으면 예외 발생으로 일단 처리)
-- [ ] 사용자 탈퇴 처리 (`UserWithdrawalService`)
+- [x] 의존성 순환 문제 해결 (사용자 삭제 시 채널과 메시지가 있으면 예외 발생으로 일단 처리)
+- [x] 사용자 탈퇴 처리 (`UserWithdrawalService`)
 
 <br>
 
