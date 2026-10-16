@@ -1,9 +1,3 @@
-# Discodeit
-
-> Java Collections Framework 기반 채팅 서비스 도메인 모델 & 서비스 구현 (스프린트 미션 1)
-
-<br>
-
 ## 진행 현황
 
 ### 기본 요구사항
@@ -30,11 +24,12 @@
 
 ### 피드백 반영
 - [x] Channel에 List<UUID> messages 필드 추가
-- [x] Channel의 receiverId 필드 삭제
+- [x] Message의 receiverId 필드 삭제
 - [x] User에 Set<UUID> channels 필드 추가
 - [x] User에 List<UUID> messages 필드 추가
 - [x] Service 구현 객체의 update 메서드 수정
 - [ ] 의존성 순환 문제 해결(진행 중...) (사용자 삭제 시 채널과 메시지가 있으면 예외 발생으로 일단 처리)
+- [ ] 사용자 탈퇴 처리 (`UserWithdrawalService`)
 
 <br>
 
@@ -163,6 +158,11 @@ classDiagram
         +delete(UUID, UUID)
     }
 
+    class UserWithdrawalService {
+        <<interface>>
+        +withdraw(UUID)
+    }
+
     class JCFUserService {
         -final Map~UUID, User~ data
     }
@@ -172,14 +172,19 @@ classDiagram
     class JCFMessageService {
         -final Map~UUID, Message~ data
     }
+    class JCFUserWithdrawalService
 
     UserService <|.. JCFUserService
     ChannelService <|.. JCFChannelService
     MessageService <|.. JCFMessageService
+    UserWithdrawalService <|.. JCFUserWithdrawalService
 
     JCFChannelService --> UserService : 유저 확인, channels 갱신
     JCFMessageService --> UserService : 발신자 확인, messages 갱신
     JCFMessageService --> ChannelService : 채널 확인, messages 갱신
+    JCFUserWithdrawalService --> UserService : 사용자 조회, 삭제
+    JCFUserWithdrawalService --> ChannelService : 채널 확인, 퇴장
+    JCFUserWithdrawalService --> MessageService : 메시지 삭제
 ```
 
 <br>
@@ -208,6 +213,35 @@ sequenceDiagram
     MS-->>Client: Message
 ```
 
+### 사용자 탈퇴
+
+```mermaid
+sequenceDiagram
+    actor Client
+    participant WS as UserWithdrawalService
+    participant US as UserService
+    participant CS as ChannelService
+    participant MS as MessageService
+
+    Client->>WS: withdraw(userId)
+    WS->>US: findById(userId)
+    US-->>WS: User
+    loop 참여 중인 채널
+        WS->>CS: findById(channelId)
+        CS-->>WS: Channel (소유자면 예외, 아무것도 바뀌지 않음)
+    end
+    loop 작성한 메시지
+        WS->>MS: delete(messageId, userId)
+        Note over MS: data, User.messages, Channel.messages에서 모두 제거
+    end
+    loop 참여 중인 채널
+        WS->>CS: leave(channelId, userId)
+        Note over CS: Channel.users, User.channels에서 모두 제거
+    end
+    WS->>US: delete(userId)
+    WS-->>Client: 완료
+```
+
 <br>
 
 ## 서비스 간 의존 방향
@@ -216,6 +250,9 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
+    UW[UserWithdrawalService] --> MS
+    UW --> CS
+    UW --> US
     MS["MessageService<br/>메시지 생성·수정·삭제"] --> CS["ChannelService<br/>멤버십·소유권 관리"]
     CS --> US["UserService<br/>사용자 관리"]
     MS --> US
@@ -231,6 +268,7 @@ flowchart TD
 | 변경 입구 | 입장·퇴장·메시지 생성/삭제는 **서비스 메서드를 통해서만** 한다 (양쪽 목록을 함께 갱신) |
 | 검증 순서 | 검증을 모두 끝낸 뒤에 값을 변경한다 |
 | 삭제 정책 | 관계가 남아 있으면 삭제를 **거부**한다 |
+| 탈퇴 정책 | 탈퇴는 UserWithdrawalService를 통해서만 한다 |
 
 ### 삭제 정책 상세
 
@@ -239,5 +277,14 @@ flowchart TD
 | User | 참여 중인 채널 또는 작성한 메시지가 남아 있음 | 없음 |
 | Channel | 메시지가 남아 있음 | 참여 중인 유저의 `channels`에서 채널 제거 |
 | Message | 없음 | `User.messages`, `Channel.messages`에서 메시지 제거 |
+
+### 탈퇴 정책 상세
+
+| 단계 | 처리 |
+|---|---|
+| 1. 검증 | 소유한 채널이 있으면 거부 (아무것도 바뀌지 않음) |
+| 2. 메시지 | 작성한 메시지를 모두 삭제 (`data`, `User.messages`, `Channel.messages`에서 제거) |
+| 3. 채널 | 참여 중인 채널에서 모두 퇴장 |
+| 4. 사용자 | `UserService.delete` (관계가 비어 있어 기존 삭제 규칙을 통과) |
 
 > 올바른 삭제 순서: **메시지 → 채널 → 사용자**
