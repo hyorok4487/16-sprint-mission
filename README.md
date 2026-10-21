@@ -305,6 +305,12 @@ flowchart TD
   - [x] JCF*Service 저장 로직 참고
 - [x] File 구현체 구현 (`FileUserRepository`, `FileChannelRepository`, `FileMessageRepository`)
   - [x] File*Service 저장 로직 참고
+     
+| 구분 | `JCF*Service | File*Service |
+|---|---|---|
+| 저장 위치 | 메모리의 Map | 컴퓨터의 data/ 폴더 안 .ser 파일 |
+| 지속성 | 휘발성 | 비휘발성 |
+| 의존 | 서비스가 구체적인 저장 수단에 직접 의존 |
 
 ### 심화 요구사항
 - [x] 관심사 분리를 통한 레이어 간 의존성 주입
