@@ -314,11 +314,20 @@ flowchart TD
 - [x] `JavaApplication` 테스트
   - [x] Basic*Service + JCF*Repository
   - [x] Basic*Service + File*Repository
-- [x] 이전 코드(JCF*Service, File*Service)와 차이 정리 (저장 로직과 서비스 로직을 분리, 인터페이스, 다형성 활용 등으로 
+- [x] 이전 코드(JCF*Service, File*Service)와 차이 정리
+
+| 원칙 | `JCF*Service` / `File*Service` | `Basic*Service` | `*Repository` | 결과 |
+|---|---|---|---|---|
+| 단일 책임 원칙 (Single Responsibility Principle) | 비즈니스 규칙과 저장 방식을 함께 담당하여 변경 이유가 둘 | 비즈니스 규칙만 담당 | 저장만 담당 | 개선 |
+| 개방-폐쇄 원칙 (Open-Closed Principle) | 저장 방식을 추가하려면 서비스를 새로 만들어 규칙을 복사해야 함 | 저장 방식이 늘어나도 수정하지 않음 | 새 구현체를 추가하는 것으로 확장 | 개선 |
+| 리스코프 치환 원칙 (Liskov Substitution Principle) | 같은 서비스 인터페이스를 구현하여 서로 교체 가능 | 같은 서비스 인터페이스를 구현하여 교체 가능 | `JCF*Repository`와 `File*Repository`를 교체 가능, 단 `JCF`는 원본 객체를, `File`은 복사본을 반환하므로 수정 후 `save` 호출이 필수 | 유지 (주의 필요) |
+| 인터페이스 분리 원칙 (Interface Segregation Principle) | 서비스 인터페이스에 다른 도메인 기록 갱신 메서드(`addChannel`, `addMessage` 등)가 섞여 있음 | 같은 서비스 인터페이스를 그대로 사용 | `save`, `findById`, `findAll`, `deleteById` 4개로 작고 응집됨 | Repository에서 개선, 서비스는 변화 없음 |
+| 의존 역전 원칙 (Dependency Inversion Principle) | `Map`, 파일 같은 구체적인 저장 방식에 직접 의존 | `Repository` 인터페이스에만 의존 | 의존하는 대상 없음 | 개선 |
+| 의존성 주입 (Dependency Injection) | 다른 서비스를 생성자로 주입 | 다른 서비스와 Repository를 생성자로 주입 | 주입받는 것 없음 | 범위 확장 |
 
 ### 문서
 - [ ] 클래스 다이어그램
-- [ ] 시퀀스 다이어그램
+
 
 ### 피드백 반영
 - [ ] 
@@ -327,12 +336,115 @@ flowchart TD
 
 ## 클래스 다이어그램
 
-<br>
+> 서비스 인터페이스의 메서드 목록은 1차 다이어그램과 같아서 생략
 
-## 시퀀스 다이어그램
+```mermaid
+classDiagram
+    direction TB
+
+    class UserService {
+        <<interface>>
+    }
+    class ChannelService {
+        <<interface>>
+    }
+    class MessageService {
+        <<interface>>
+    }
+    class UserWithdrawalService {
+        <<interface>>
+        +withdraw(UUID)
+    }
+
+    class BasicUserService {
+        -UserRepository userRepository
+    }
+    class BasicChannelService {
+        -UserService userService
+        -ChannelRepository channelRepository
+    }
+    class BasicMessageService {
+        -UserService userService
+        -ChannelService channelService
+        -MessageRepository messageRepository
+    }
+    class BasicUserWithdrawalService {
+        -UserService userService
+        -ChannelService channelService
+        -MessageService messageService
+    }
+
+    class UserRepository {
+        <<interface>>
+        +save(User) User
+        +findById(UUID) Optional~User~
+        +findAll() List~User~
+        +deleteById(UUID)
+    }
+    class ChannelRepository {
+        <<interface>>
+        +save(Channel) Channel
+        +findById(UUID) Optional~Channel~
+        +findAll() List~Channel~
+        +deleteById(UUID)
+    }
+    class MessageRepository {
+        <<interface>>
+        +save(Message) Message
+        +findById(UUID) Optional~Message~
+        +findAll() List~Message~
+        +deleteById(UUID)
+    }
+
+    class JCFUserRepository {
+        -Map~UUID, User~ data
+    }
+    class FileUserRepository {
+        -Path PATH
+    }
+    class JCFChannelRepository {
+        -Map~UUID, Channel~ data
+    }
+    class FileChannelRepository {
+        -Path PATH
+    }
+    class JCFMessageRepository {
+        -Map~UUID, Message~ data
+    }
+    class FileMessageRepository {
+        -Path PATH
+    }
+
+    UserService <|.. BasicUserService
+    ChannelService <|.. BasicChannelService
+    MessageService <|.. BasicMessageService
+    UserWithdrawalService <|.. BasicUserWithdrawalService
+
+    UserRepository <|.. JCFUserRepository
+    UserRepository <|.. FileUserRepository
+    ChannelRepository <|.. JCFChannelRepository
+    ChannelRepository <|.. FileChannelRepository
+    MessageRepository <|.. JCFMessageRepository
+    MessageRepository <|.. FileMessageRepository
+
+    BasicUserService --> UserRepository : 저장 위임
+    BasicChannelService --> ChannelRepository : 저장 위임
+    BasicMessageService --> MessageRepository : 저장 위임
+
+    BasicChannelService --> UserService : 사용자 확인, channels 갱신
+    BasicMessageService --> UserService : 발신자 확인, messages 갱신
+    BasicMessageService --> ChannelService : 채널 확인, messages 갱신
+    BasicUserWithdrawalService --> UserService : 조회, 삭제
+    BasicUserWithdrawalService --> ChannelService : 채널 확인, 퇴장
+    BasicUserWithdrawalService --> MessageService : 메시지 삭제
+```
 
 <br>
 
 ## 설계규칙
 
-### 각종 정책 상세
+| 구분 | 규칙 |
+|---|---|
+| 저장 로직 | 저장 로직은 `Repository` 구현체 안에만 둔다 (`Basic*Service`는 `Map`, 파일을 직접 다루지 않는다) |
+| 의존 대상 | 서비스는 다른 서비스 인터페이스와 `Repository` 인터페이스에만 의존한다 (구현체는 생성자로 주입) |
+| 변경 후 저장 | 객체를 수정한 뒤에는 반드시 `repository.save(...)`를 호출한다 (`File*Repository`는 복사본을 반환하기 때문) |
