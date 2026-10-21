@@ -292,29 +292,29 @@ flowchart TD
 <br>
 
 ### 기본 요구사항
-- [ ] File IO를 통한 데이터 영속화
-  - [ ] 도메인 모델 직렬화 (`Serializable`, `serialVersionUID`)
-  - [ ] File 구현체 구현 (`FileUserService`, `FileChannelService`, `FileMessageService`)
-  - [ ] `JavaApplication` 테스트 (File*Service)
-- [ ] 서비스 구현체 분석
-  - [ ] JCF*Service / File*Service 공통점·차이점 비교
-  - [ ] "비즈니스 로직" 코드 식별
-  - [ ] "저장 로직" 코드 식별
-- [ ] 레포지토리 설계 (`UserRepository`, `ChannelRepository`, `MessageRepository`)
-- [ ] JCF 구현체 구현 (`JCFUserRepository`, `JCFChannelRepository`, `JCFMessageRepository`)
-  - [ ] JCF*Service 저장 로직 참고
-- [ ] File 구현체 구현 (`FileUserRepository`, `FileChannelRepository`, `FileMessageRepository`)
-  - [ ] File*Service 저장 로직 참고
+- [x] File IO를 통한 데이터 영속화
+  - [x] 도메인 모델 직렬화 (`Serializable`, `serialVersionUID`)
+  - [x] File 구현체 구현 (`FileUserService`, `FileChannelService`, `FileMessageService`)
+  - [x] `JavaApplication` 테스트 (File*Service)
+- [x] 서비스 구현체 분석
+  - [x] JCF*Service / File*Service 공통점·차이점 비교
+  - [x] "비즈니스 로직" 코드 식별 (검증 등 저장 로직 제외 로직들) (까다로움)
+  - [x] "저장 로직" 코드 식별 (save, findById, findAll, deleteById) (까다로움)
+- [x] 레포지토리 설계 (`UserRepository`, `ChannelRepository`, `MessageRepository`)
+- [x] JCF 구현체 구현 (`JCFUserRepository`, `JCFChannelRepository`, `JCFMessageRepository`)
+  - [x] JCF*Service 저장 로직 참고
+- [x] File 구현체 구현 (`FileUserRepository`, `FileChannelRepository`, `FileMessageRepository`)
+  - [x] File*Service 저장 로직 참고
 
 ### 심화 요구사항
-- [ ] 관심사 분리를 통한 레이어 간 의존성 주입
-  - [ ] Basic 구현체 구현 (`BasicUserService`, `BasicChannelService`, `BasicMessageService`)
-  - [ ] Repository 인터페이스를 필드로 선언, 생성자로 주입
-  - [ ] "저장 로직"은 Repository에 위임
-- [ ] `JavaApplication` 테스트
-  - [ ] Basic*Service + JCF*Repository
-  - [ ] Basic*Service + File*Repository
-- [ ] 이전 코드(JCF*Service, File*Service)와 차이 정리
+- [x] 관심사 분리를 통한 레이어 간 의존성 주입
+  - [x] Basic 구현체 구현 (`BasicUserService`, `BasicChannelService`, `BasicMessageService`)
+  - [x] Repository 인터페이스를 필드로 선언, 생성자로 주입
+  - [x] "저장 로직"은 Repository에 위임
+- [x] `JavaApplication` 테스트
+  - [x] Basic*Service + JCF*Repository
+  - [x] Basic*Service + File*Repository
+- [x] 이전 코드(JCF*Service, File*Service)와 차이 정리 (저장 로직과 서비스 로직을 분리, 인터페이스, 다형성 활용 등으로 
 
 ### 문서
 - [ ] 클래스 다이어그램
