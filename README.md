@@ -326,11 +326,11 @@ flowchart TD
 | 의존성 주입 (Dependency Injection) | 다른 서비스를 생성자로 주입 | 다른 서비스와 Repository를 생성자로 주입 | 주입받는 것 없음 | 범위 확장 |
 
 ### 문서
-- [ ] 클래스 다이어그램
+- [x] 클래스 다이어그램
 
 
 ### 피드백 반영
-- [x] 
+- [x] save() 메서드에서 try-catch문에서 IOException은 e.printStrackTrace로 잡기보다 throw new UncheckedException(e)로 다시 언체크드Exception을 날린다.
 
 <br>
 
