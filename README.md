@@ -464,10 +464,9 @@ classDiagram
 - [x] Spring 프로젝트 초기화 (Gradle-Groovy, Java 17, Spring Boot `4.1.1`, Jar, YAML)
   - [x] Dependency 추가: `Lombok`, `Spring Web`
   - [x] 기존 프로젝트에 병합 후 `DiscodeitApplication` 실행 확인
-- [ ] Bean 선언 및 테스트
-  - [ ] `File*Repository`, `Basic*Service` 구현체를 Bean으로 등록
-  - [ ] `JavaApplication` 테스트 코드를 `DiscodeitApplication`으로 이전
-  - [ ] Service 초기화를 Spring Context의 Bean 조회로 대체
+- [x] Bean 선언 및 테스트
+  - [x] `File*Repository`, `Basic*Service` 구현체를 Bean으로 등록
+  - [x] `JavaApplication` 테스트 코드를 `DiscodeitApplication`으로 이전
 - [ ] Spring 핵심 개념 정리 (IoC Container, DI, Bean)
 - [ ] Lombok 적용
   - [ ] 도메인 모델 getter → `@Getter`
