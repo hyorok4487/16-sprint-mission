@@ -467,14 +467,14 @@ classDiagram
 - [x] Bean 선언 및 테스트
   - [x] `File*Repository`, `Basic*Service` 구현체를 Bean으로 등록
   - [x] `JavaApplication` 테스트 코드를 `DiscodeitApplication`으로 이전
-- [ ] Spring 핵심 개념 정리 (IoC Container, DI, Bean)
+- [x] Spring 핵심 개념 정리 (IoC Container, DI, Bean)
 - [x] Lombok 적용
   - [x] 도메인 모델 getter → `@Getter`
   - [x] `Basic*Service` 생성자 → `@RequiredArgsConstructor`
 
 ### 심화 요구사항
-- [ ] 시간 필드 타입 `Instant`로 통일
-- [ ] 새로운 도메인 추가 (`ReadStatus`, `UserStatus`, `BinaryContent`)
+- [x] 시간 필드 타입 `Instant`로 통일
+- [x] 새로운 도메인 추가 (`ReadStatus`, `UserStatus`, `BinaryContent`)
   - [ ] `UserStatus`: 마지막 접속 5분 이내면 온라인으로 판단
   - [ ] `BinaryContent`: 수정 불가 모델 (`updatedAt` 제외)
   - [ ] Repository 인터페이스 및 JCF, File 구현체 구현
