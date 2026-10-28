@@ -458,3 +458,38 @@ classDiagram
 | 저장 로직 | 저장 로직은 `Repository` 구현체 안에만 둔다 (`Basic*Service`는 `Map`, 파일을 직접 다루지 않는다) |
 | 의존 대상 | 서비스는 다른 서비스 인터페이스와 `Repository` 인터페이스에만 의존한다 (구현체는 생성자로 주입) |
 | 변경 후 저장 | 객체를 수정한 뒤에는 반드시 `repository.save(...)`를 호출한다 (`File*Repository`는 복사본을 반환하기 때문) |
+
+
+### 기본 요구사항
+- [ ] Spring 프로젝트 초기화 (Gradle-Groovy, Java 17, Spring Boot `4.1.1`, Jar, YAML)
+  - [ ] Dependency 추가: `Lombok`, `Spring Web`
+  - [ ] 기존 프로젝트에 병합 후 `DiscodeitApplication` 실행 확인
+- [ ] Bean 선언 및 테스트
+  - [ ] `File*Repository`, `Basic*Service` 구현체를 Bean으로 등록
+  - [ ] `JavaApplication` 테스트 코드를 `DiscodeitApplication`으로 이전
+  - [ ] Service 초기화를 Spring Context의 Bean 조회로 대체
+- [ ] Spring 핵심 개념 정리 (IoC Container, DI, Bean)
+- [ ] Lombok 적용
+  - [ ] 도메인 모델 getter → `@Getter`
+  - [ ] `Basic*Service` 생성자 → `@RequiredArgsConstructor`
+
+### 심화 요구사항
+- [ ] 시간 필드 타입 `Instant`로 통일
+- [ ] 새로운 도메인 추가 (`ReadStatus`, `UserStatus`, `BinaryContent`)
+  - [ ] `UserStatus`: 마지막 접속 5분 이내면 온라인으로 판단
+  - [ ] `BinaryContent`: 수정 불가 모델 (`updatedAt` 제외)
+  - [ ] Repository 인터페이스 및 JCF, File 구현체 구현
+- [ ] DTO로 Service 파라미터 그룹화
+- [ ] Service 간 주입 대신 Repository 주입으로 순환 참조 방지
+- [ ] Service 고도화
+  - [ ] `UserService`: 프로필 이미지 등록·교체, 중복 검사, 온라인 상태 포함 조회, 관련 도메인 함께 삭제
+  - [ ] `ChannelService`: PUBLIC/PRIVATE 생성 분리, 최근 메시지 시간 포함 조회, `findAllByUserId`, PRIVATE 수정 불가
+  - [ ] `MessageService`: 첨부파일 등록, `findAllByChannelId`, 첨부파일 함께 삭제
+- [ ] 신규 Service 구현 (`AuthService`, `ReadStatusService`, `UserStatusService`, `BinaryContentService`)
+
+### 문서
+- [ ] 클래스 다이어그램
+- [ ] 시퀀스 다이어그램
+
+### 피드백 반영
+- [ ] 
