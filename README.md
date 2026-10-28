@@ -461,9 +461,9 @@ classDiagram
 
 
 ### 기본 요구사항
-- [ ] Spring 프로젝트 초기화 (Gradle-Groovy, Java 17, Spring Boot `4.1.1`, Jar, YAML)
-  - [ ] Dependency 추가: `Lombok`, `Spring Web`
-  - [ ] 기존 프로젝트에 병합 후 `DiscodeitApplication` 실행 확인
+- [x] Spring 프로젝트 초기화 (Gradle-Groovy, Java 17, Spring Boot `4.1.1`, Jar, YAML)
+  - [x] Dependency 추가: `Lombok`, `Spring Web`
+  - [x] 기존 프로젝트에 병합 후 `DiscodeitApplication` 실행 확인
 - [ ] Bean 선언 및 테스트
   - [ ] `File*Repository`, `Basic*Service` 구현체를 Bean으로 등록
   - [ ] `JavaApplication` 테스트 코드를 `DiscodeitApplication`으로 이전
