@@ -475,8 +475,8 @@ classDiagram
 ### 심화 요구사항
 - [x] 시간 필드 타입 `Instant`로 통일
 - [x] 새로운 도메인 추가 (`ReadStatus`, `UserStatus`, `BinaryContent`)
-  - [ ] `UserStatus`: 마지막 접속 5분 이내면 온라인으로 판단
-  - [ ] `BinaryContent`: 수정 불가 모델 (`updatedAt` 제외)
+  - [x] `UserStatus`: 마지막 접속 5분 이내면 온라인으로 판단
+  - [x] `BinaryContent`: 수정 불가 모델 (`updatedAt` 제외)
   - [ ] Repository 인터페이스 및 JCF, File 구현체 구현
 - [ ] DTO로 Service 파라미터 그룹화
 - [ ] Service 간 주입 대신 Repository 주입으로 순환 참조 방지
