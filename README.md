@@ -468,9 +468,9 @@ classDiagram
   - [x] `File*Repository`, `Basic*Service` 구현체를 Bean으로 등록
   - [x] `JavaApplication` 테스트 코드를 `DiscodeitApplication`으로 이전
 - [ ] Spring 핵심 개념 정리 (IoC Container, DI, Bean)
-- [ ] Lombok 적용
-  - [ ] 도메인 모델 getter → `@Getter`
-  - [ ] `Basic*Service` 생성자 → `@RequiredArgsConstructor`
+- [x] Lombok 적용
+  - [x] 도메인 모델 getter → `@Getter`
+  - [x] `Basic*Service` 생성자 → `@RequiredArgsConstructor`
 
 ### 심화 요구사항
 - [ ] 시간 필드 타입 `Instant`로 통일
