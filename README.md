@@ -478,10 +478,10 @@ classDiagram
   - [x] `UserStatus`: 마지막 접속 5분 이내면 온라인으로 판단
   - [x] `BinaryContent`: 수정 불가 모델 (`updatedAt` 제외)
   - [ ] Repository 인터페이스 및 JCF, File 구현체 구현
-- [ ] DTO로 Service 파라미터 그룹화
+- [x] DTO로 Service 파라미터 그룹화
 - [ ] Service 간 주입 대신 Repository 주입으로 순환 참조 방지
 - [ ] Service 고도화
-  - [ ] `UserService`: 프로필 이미지 등록·교체, 중복 검사, 온라인 상태 포함 조회, 관련 도메인 함께 삭제
+  - [x] `UserService`: 프로필 이미지 등록·교체, 중복 검사, 온라인 상태 포함 조회, 관련 도메인 함께 삭제
   - [ ] `ChannelService`: PUBLIC/PRIVATE 생성 분리, 최근 메시지 시간 포함 조회, `findAllByUserId`, PRIVATE 수정 불가
   - [ ] `MessageService`: 첨부파일 등록, `findAllByChannelId`, 첨부파일 함께 삭제
 - [ ] 신규 Service 구현 (`AuthService`, `ReadStatusService`, `UserStatusService`, `BinaryContentService`)
