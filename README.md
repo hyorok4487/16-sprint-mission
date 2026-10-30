@@ -491,4 +491,9 @@ classDiagram
 - [ ] 시퀀스 다이어그램
 
 ### 피드백 반영
-- [ ] 
+- [x] `MessageMapper`에 `@Component` 추가하여 Bean 등록
+- [ ] PRIVATE 채널 생성 시 이름 검증으로 인한 예외 수정 (PUBLIC 채널만 이름 검증)
+- [ ] 채널 생성 시 소유자 중복 추가로 인한 예외 수정 (생성자에서만 소유자 추가)
+- [ ] `UserService.update` 시 전달하지 않은 값은 기존 값으로 대체
+- [ ] `UserService.update` 시 값 검증 및 중복 검사를 프로필 저장·삭제보다 먼저 수행
+- [ ] `UserService.update` 시 사용자 저장 성공 후 기존 프로필 삭제
