@@ -497,3 +497,4 @@ classDiagram
 - [x] `UserService.update` 시 전달하지 않은 값은 기존 값으로 대체
 - [x] `UserService.update` 시 값 검증 및 중복 검사를 프로필 저장·삭제보다 먼저 수행
 - [x] `UserService.update` 시 사용자 저장 성공 후 기존 프로필 삭제
+- [x] 채널 삭제 시 채널을 나간 작성자의 메시지 참조 정리
