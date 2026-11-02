@@ -484,7 +484,7 @@ classDiagram
   - [x] `UserService`: 프로필 이미지 등록·교체, 중복 검사, 온라인 상태 포함 조회, 관련 도메인 함께 삭제
   - [x] `ChannelService`: PUBLIC/PRIVATE 생성 분리, 최근 메시지 시간 포함 조회, `findAllByUserId`, PRIVATE 수정 불가
   - [x] `MessageService`: 첨부파일 등록, `findAllByChannelId`, 첨부파일 함께 삭제
-- [ ] 신규 Service 구현 (`AuthService`, `ReadStatusService`, `UserStatusService`, `BinaryContentService`)
+- [x] 신규 Service 구현 (`AuthService`, `ReadStatusService`, `UserStatusService`, `BinaryContentService`)
 
 ### 문서
 - [ ] 클래스 다이어그램
@@ -492,8 +492,8 @@ classDiagram
 
 ### 피드백 반영
 - [x] `MessageMapper`에 `@Component` 추가하여 Bean 등록
-- [ ] PRIVATE 채널 생성 시 이름 검증으로 인한 예외 수정 (PUBLIC 채널만 이름 검증)
-- [ ] 채널 생성 시 소유자 중복 추가로 인한 예외 수정 (생성자에서만 소유자 추가)
-- [ ] `UserService.update` 시 전달하지 않은 값은 기존 값으로 대체
-- [ ] `UserService.update` 시 값 검증 및 중복 검사를 프로필 저장·삭제보다 먼저 수행
-- [ ] `UserService.update` 시 사용자 저장 성공 후 기존 프로필 삭제
+- [x] PRIVATE 채널 생성 시 이름 검증으로 인한 예외 수정 (PUBLIC 채널만 이름 검증)
+- [x] 채널 생성 시 소유자 중복 추가로 인한 예외 수정 (생성자에서만 소유자 추가)
+- [x] `UserService.update` 시 전달하지 않은 값은 기존 값으로 대체
+- [x] `UserService.update` 시 값 검증 및 중복 검사를 프로필 저장·삭제보다 먼저 수행
+- [x] `UserService.update` 시 사용자 저장 성공 후 기존 프로필 삭제
