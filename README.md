@@ -498,3 +498,23 @@ classDiagram
 - [x] `UserService.update` 시 값 검증 및 중복 검사를 프로필 저장·삭제보다 먼저 수행
 - [x] `UserService.update` 시 사용자 저장 성공 후 기존 프로필 삭제
 - [x] 채널 삭제 시 채널을 나간 작성자의 메시지 참조 정리
+
+
+### 기본 요구사항
+- [ ] 컨트롤러 레이어 구현 (`@RequestMapping`만 사용)
+  - [ ] `DiscodeitApplication`의 테스트 로직 삭제
+  - [ ] 서비스 로직을 활용한 웹 API 구현
+  - [ ] 웹 API 예외 전역 처리
+- [ ] 웹 API 구현
+  - [ ] 사용자 관리: 등록, 수정, 삭제, 전체 조회, 온라인 상태 업데이트
+  - [ ] 권한 관리: 로그인
+  - [ ] 채널 관리: PUBLIC/PRIVATE 생성, PUBLIC 수정, 삭제, `findAllByUserId` 조회
+  - [ ] 메시지 관리: 전송, 수정, 삭제, `findAllByChannelId` 조회
+  - [ ] 메시지 수신 정보 관리 (`ReadStatus`): 생성, 수정, 사용자별 조회
+  - [ ] 바이너리 파일 다운로드: 단건·다건 조회 (`findAllByIdIn`)
+- [ ] API 테스트 (Postman)
+  - [ ] 컨트롤러 API 테스트
+  - [ ] 테스트 결과 export 후 PR 첨부
+
+### 심화 요구사항
+- [ ]
