@@ -517,4 +517,9 @@ classDiagram
   - [ ] 테스트 결과 export 후 PR 첨부
 
 ### 심화 요구사항
-- [ ]
+- [ ] 정적 리소스 서빙
+  - [ ] 사용자 목록 조회 API 수정 (`GET /api/user/findAll`, `ResponseEntity<List<UserDto>>`)
+  - [ ] BinaryContent 파일 조회 API 수정 (`GET /api/binaryContent/find?binaryContentId=`, `ResponseEntity<BinaryContent>`)
+  - [ ] 제공된 정적 리소스로 사용자 목록 화면 서빙
+- [ ] 생성형 AI 활용
+  - [ ] 생성형 AI로 비슷한 화면을 만들어 서빙
