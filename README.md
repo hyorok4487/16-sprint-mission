@@ -502,7 +502,7 @@ classDiagram
 
 ### 기본 요구사항
 - [ ] 컨트롤러 레이어 구현 (`@RequestMapping`만 사용)
-  - [ ] `DiscodeitApplication`의 테스트 로직 삭제
+  - [x] `DiscodeitApplication`의 테스트 로직 삭제
   - [ ] 서비스 로직을 활용한 웹 API 구현
   - [ ] 웹 API 예외 전역 처리
 - [ ] 웹 API 구현
