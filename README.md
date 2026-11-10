@@ -511,10 +511,10 @@ classDiagram
   - [x] 채널 관리: PUBLIC/PRIVATE 생성, PUBLIC 수정, 삭제, `findAllByUserId` 조회
   - [x] 메시지 관리: 전송, 수정, 삭제, `findAllByChannelId` 조회
   - [x] 메시지 수신 정보 관리 (`ReadStatus`): 생성, 수정, 사용자별 조회
-  - [ ] 바이너리 파일 다운로드: 단건·다건 조회 (`findAllByIdIn`)
-- [ ] API 테스트 (Postman)
+  - [x] 바이너리 파일 다운로드: 단건·다건 조회 (`findAllByIdIn`)
+- [x] API 테스트 (Postman)
   - [x] 컨트롤러 API 테스트
-  - [ ] 테스트 결과 export 후 PR 첨부
+  - [x] 테스트 결과 export 후 PR 첨부
 
 ### 심화 요구사항
 - [ ] 정적 리소스 서빙
