@@ -523,3 +523,23 @@ classDiagram
   - [x] 제공된 정적 리소스로 사용자 목록 화면 서빙
 - [ ] 생성형 AI 활용
   - [ ] 생성형 AI로 비슷한 화면을 만들어 서빙
+
+
+### 베이스 코드 전처리
+- [x] Google Java Style Guide가 적용
+- [x] 파일 동시 접근 오류를 방지하기 위한 모듈이 추가(`ReentrantLock`) 
+
+### 기본 요구사항
+- [ ] RESTful API 재설계 (제공된 API 스펙 준수)
+  - [ ] 제공된 API 스펙과 기존 API 비교 (`oasdiff` 활용)
+  - [ ] API 스펙에 맞춰 컨트롤러 수정
+- [ ] Postman API 테스트 및 결과 PR 첨부
+- [ ] Swagger 기반 API 문서 생성 (`springdoc-openapi`)
+- [ ] Swagger-UI로 API 테스트
+
+### 심화 요구사항
+- [ ] 정적 리소스 서빙 및 프론트엔드 통합 (`fe_1.0.0.zip`)
+- [ ] Railway.app 배포
+  - [ ] Railway.app 가입 및 GitHub 레포지토리 연결
+  - [ ] `Settings > Network`에서 도메인 생성
+  - [ ] 생성된 도메인으로 배포된 애플리케이션 테스트
